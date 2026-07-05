@@ -1,0 +1,67 @@
+name: Deploy Backend to Cloud Run
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'apps/backend/**'
+      - '.github/workflows/deploy-backend-cloudrun.yml'
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REGION: asia-south1
+  SERVICE_NAME: study-buddy-api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write' # Required for Workload Identity Federation
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Google Cloud Authentication
+      # Preferred Production Mode: Workload Identity Federation (WIP)
+      # Alternate Development Mode: GCP_SA_KEY secret containing the Service Account credentials json key
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          # Configuration for Workload Identity Federation:
+          # workload_identity_provider: ${{ secrets.GCP_WIP_PROVIDER }}
+          # service_account: ${{ secrets.GCP_WIP_SERVICE_ACCOUNT }}
+          
+          # Configuration for Service Account Key Fallback:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Authorize Docker Push to Container Registry
+        run: |
+          gcloud auth configure-docker --quiet
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} apps/backend
+          docker tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:latest
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:latest
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          service: ${{ env.SERVICE_NAME }}
+          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+          region: ${{ env.REGION }}
+          flags: |
+            --service-account=study-buddy-runner@${{ env.PROJECT_ID }}.iam.gserviceaccount.com
+            --add-cloudsql-instances=${{ env.PROJECT_ID }}:${{ env.REGION }}:studymateai-db-instance
+            --set-env-vars=APP_ENV=production,GOOGLE_CLOUD_PROJECT=${{ env.PROJECT_ID }},GOOGLE_CLOUD_LOCATION=${{ env.REGION }},MODEL_NAME=gemini-1.5-flash,EMBEDDING_MODEL=text-embedding-004,GOOGLE_GENAI_USE_VERTEXAI=true
+            --set-secrets=DATABASE_URL=DATABASE_URL:latest
+            --min-instances=0
+            --max-instances=2
+            --allow-unauthenticated

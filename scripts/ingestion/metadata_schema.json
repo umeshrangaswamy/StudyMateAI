@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StudyMateAI Ingestion Metadata Schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string",
+      "enum": ["physics", "chemistry"]
+    },
+    "board": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "chapter": {
+      "type": "string"
+    },
+    "exam": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    }
+  },
+  "required": ["title", "subject", "board", "year"]
+}

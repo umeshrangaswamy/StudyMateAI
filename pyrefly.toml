@@ -1,0 +1,10 @@
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]
+
+search-path = [
+    "apps/backend",
+    "packages/prompts",
+    "packages/shared"
+]
