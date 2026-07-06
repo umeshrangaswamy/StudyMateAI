@@ -16,7 +16,7 @@ GOOGLE_CLOUD_LOCATION=asia-south1
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/studymateai
 
 # Gemini API configuration
-MODEL_NAME=gemini-1.5-flash
+MODEL_NAME=gemini-2.5-flash-lite
 EMBEDDING_MODEL=text-embedding-004
 
 # App config
@@ -101,7 +101,7 @@ Inspect stdout terminal logs from the backend. Verify that log entries are print
 * `detected_intent`, `detected_exam`
 * `agent_path` (e.g. `orchestrator -> RAG -> PhysicsSME`)
 * `latency_ms` (execution runtime timing)
-* `model_name` (`gemini-1.5-flash`)
+* `model_name` (`gemini-2.5-flash-lite`)
 * `error_type` (`none` on successes)
 
 *Check that API credentials, passwords, and user raw queries are masked or absent in telemetry fields.*

@@ -82,7 +82,7 @@ StudyMateAI/
 
 - **Frontend:** Next.js (Static HTML Export), TypeScript, Tailwind CSS, hosted on Firebase Hosting.
 - **Backend:** FastAPI (Python 3.11) containerized on Cloud Run (min instances = 0, max = 2).
-- **LLM & Embeddings:** Vertex AI Gemini 1.5 Flash (`gemini-1.5-flash`), Vertex AI Text Embeddings (`text-embedding-004`).
+- **LLM & Embeddings:** Vertex AI Gemini 2.5 Flash Lite (`gemini-2.5-flash-lite`), Vertex AI Text Embeddings (`text-embedding-004`).
 - **Vector Database:** Cloud SQL PostgreSQL with the `pgvector` extension.
 - **Metadata Store:** Cloud Firestore (manages student progress metrics & transaction history).
 - **File Storage:** Google Cloud Storage (GCS) containing raw syllabus textbooks.
