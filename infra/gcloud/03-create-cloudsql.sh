@@ -23,7 +23,7 @@ if [ "$DB_PASS" = "YOUR_SECURE_PASSWORD_PLACEHOLDER" ]; then
 fi
 
 echo "Creating Cloud SQL PostgreSQL 15 Instance '$DB_INSTANCE' in location '$REGION'..."
-echo "Configuring micro tier for low-cost Free Tier usage limits..."
+echo "Configuring micro tier for low-cost MVP usage limits..."
 
 gcloud sql instances create "$DB_INSTANCE" \
     --database-version=POSTGRES_15 \

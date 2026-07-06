@@ -62,10 +62,10 @@ async def run_ingestion_pipeline(content_dir: str):
                     logger.warning(f"Skipping '{filename}': Missing required metadata fields (title, subject, board, year).")
                     continue
 
-                # Enforce Free Tier academic subject limitations
+                # Enforce MVP academic subject limitations
                 if subject not in ["physics", "chemistry"]:
                     logger.warning(
-                        f"Skipping '{filename}': Subject '{subject}' is not supported in the Free Tier ingestion pipeline."
+                        f"Skipping '{filename}': Subject '{subject}' is not supported in the MVP ingestion pipeline."
                     )
                     continue
 

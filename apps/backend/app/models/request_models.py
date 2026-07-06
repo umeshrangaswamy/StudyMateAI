@@ -20,7 +20,7 @@ class AskRequest(BaseModel):
     )
     subject: str = Field(
         ..., 
-        description="Academic subject (physics or chemistry only for Free Tier)",
+        description="Academic subject (physics or chemistry only for MVP)",
         example="Physics"
     )
     query: str = Field(
@@ -54,11 +54,11 @@ class AskRequest(BaseModel):
     @field_validator("subject")
     @classmethod
     def validate_free_tier_subject(cls, value: str) -> str:
-        """Enforces that only Physics and Chemistry subjects are permitted in the Free Tier."""
+        """Enforces that only Physics and Chemistry subjects are permitted in the MVP."""
         cleaned_subj = value.strip().lower()
         if cleaned_subj not in ["physics", "chemistry"]:
             raise ValueError(
-                f"Subject '{value}' is not supported in the Free Tier. "
+                f"Subject '{value}' is not supported in the MVP. "
                 "Only 'Physics' and 'Chemistry' are currently implemented."
             )
         return value.strip()

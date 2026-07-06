@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     APP_ENV: str = "development"
     LOG_LEVEL: str = "INFO"
 
-    # Cost Controls & Free Tier Boundaries Configs
+    # Cost Controls & MVP Boundaries Configs
     MAX_RAG_CHUNKS: int = 3
     MAX_RESPONSE_TOKENS: int = 2048
     ENABLE_INTERNET_AGENT: bool = False

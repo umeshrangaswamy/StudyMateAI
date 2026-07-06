@@ -1,12 +1,15 @@
 # StudyMateAI Backend Tests
 
-This directory houses unit and integration tests for verification of FastAPI endpoint routing and agent logic.
+This directory houses unit and integration tests for verification of FastAPI endpoint routing, helper services, and agent logic.
+
+## 📂 Test Organization
+
+- **`conftest.py`**: Shared test fixtures, mock services, and FastAPI test client configurations.
+- **`tests/test_api.py`**: Verification of endpoints (`/health`, `/ready`, `/api/ask` and legacy backward-compatibility routes).
+- **`tests/test_agents.py`**: Isolated verification of sub-agent and orchestrator logic.
 
 ## 🚀 Running Tests
 ```bash
-# Install testing dependency (pytest, httpx)
-pip install -r apps/backend/requirements.txt
-
-# Run pytest from the root folder
+# Activate your virtual environment first, then run:
 pytest
 ```

@@ -1,6 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
+import katex from 'katex';
+
+function MathSpan({ math, block = false }: { math: string; block?: boolean }) {
+  try {
+    const html = katex.renderToString(math, {
+      displayMode: block,
+      throwOnError: false,
+    });
+    return <span dangerouslySetInnerHTML={{ __html: html }} />;
+  } catch (err) {
+    return <span>{math}</span>;
+  }
+}
+
 
 interface ChatSource {
   document_title: string;
@@ -71,9 +85,9 @@ export default function StudyMateDashboard() {
         return (
           <div 
             key={index} 
-            className="my-6 p-5 bg-slate-950/80 border border-sky-500/20 border-l-4 border-l-sky-400 rounded-r-2xl font-mono text-center text-sky-300 shadow-lg overflow-x-auto text-base backdrop-blur-sm"
+            className="my-6 p-5 bg-slate-950/80 border border-sky-500/20 border-l-4 border-l-sky-400 rounded-r-2xl text-center shadow-lg overflow-x-auto text-base backdrop-blur-sm"
           >
-            {part.trim()}
+            <MathSpan math={part.trim()} block={true} />
           </div>
         );
       }
@@ -87,7 +101,7 @@ export default function StudyMateDashboard() {
         if (trimmed.startsWith('###')) {
           return (
             <h3 key={lIdx} className="text-base font-bold text-sky-400 mt-6 mb-3 tracking-wide border-b border-slate-800 pb-1.5 uppercase text-xs">
-              {trimmed.replace('###', '').trim()}
+              {parseInlineElements(trimmed.replace('###', '').trim())}
             </h3>
           );
         }
@@ -96,44 +110,74 @@ export default function StudyMateDashboard() {
         if (trimmed.startsWith('##')) {
           return (
             <h2 key={lIdx} className="text-lg font-extrabold text-indigo-400 mt-8 mb-4 tracking-wide border-b border-indigo-950/80 pb-2">
-              {trimmed.replace('##', '').trim()}
+              {parseInlineElements(trimmed.replace('##', '').trim())}
             </h2>
           );
         }
 
-        // 3. Simple list item check (* or -)
+        // 3. Math formula line detection
+        const isMathFormulaLine = (t: string) => {
+          const s = t.trim();
+          if (!s) return false;
+          if (s.startsWith('\\') || s.includes('\\frac') || s.includes('\\text') || s.includes('\\Delta') || s.includes('^') || s.includes('_')) {
+            const spaces = s.split(' ').length;
+            if (spaces <= 5 || s.includes('\\text{') || s.includes('=')) {
+              return true;
+            }
+          }
+          return false;
+        };
+
+        if (isMathFormulaLine(trimmed)) {
+          return (
+            <div key={lIdx} className="my-6 p-4 bg-slate-950/80 border border-sky-500/10 border-l-4 border-l-sky-500 rounded-r-2xl text-center shadow-lg overflow-x-auto text-base backdrop-blur-sm">
+              <MathSpan math={trimmed} block={true} />
+            </div>
+          );
+        }
+
+        // 4. Simple list item check (* or -)
         if (trimmed.startsWith('*') || trimmed.startsWith('-')) {
           const cleanedLine = trimmed.replace(/^[\*\-]\s*/, '');
           return (
             <li key={lIdx} className="ml-6 text-sm text-slate-300 list-disc leading-relaxed my-2 pl-1">
-              {parseInlineBold(cleanedLine)}
+              {parseInlineElements(cleanedLine)}
             </li>
           );
         }
         
-        // 4. Empty paragraph check
+        // 5. Empty paragraph check
         if (trimmed === '') {
           return <div key={lIdx} className="h-3"></div>;
         }
 
-        // 5. Default text block
+        // 6. Default text block
         return (
           <p key={lIdx} className="text-sm text-slate-300 leading-relaxed my-2.5">
-            {parseInlineBold(trimmed)}
+            {parseInlineElements(trimmed)}
           </p>
         );
       });
     });
   };
 
-  const parseInlineBold = (text: string) => {
-    // Splits by bold syntax **
-    const boldParts = text.split(/\*\*(.*?)\*\*/g);
-    return boldParts.map((subPart, sIdx) => {
-      if (sIdx % 2 === 1) {
-        return <strong key={sIdx} className="text-slate-100 font-bold bg-slate-800/40 px-1 py-0.5 rounded">{subPart}</strong>;
+  const parseInlineElements = (text: string) => {
+    if (!text) return null;
+    const parts = text.split(/(\$\$[\s\S]*?\$\$|\$.*?\$|\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('$$') && part.endsWith('$$')) {
+        const math = part.slice(2, -2).trim();
+        return <MathSpan key={index} math={math} block={true} />;
       }
-      return subPart;
+      if (part.startsWith('$') && part.endsWith('$')) {
+        const math = part.slice(1, -1).trim();
+        return <MathSpan key={index} math={math} block={false} />;
+      }
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return <strong key={index} className="text-slate-100 font-bold bg-slate-800/40 px-1 py-0.5 rounded">{boldText}</strong>;
+      }
+      return part;
     });
   };
 

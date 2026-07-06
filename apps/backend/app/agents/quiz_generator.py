@@ -50,7 +50,7 @@ class QuizGeneratorAgent:
         # 1. Scope and boundaries validation
         subject_lower = subject.lower().strip()
         if subject_lower not in ["physics", "chemistry"]:
-            raise ValueError(f"Quiz generation for subject '{subject}' is not supported in the Free Tier.")
+            raise ValueError(f"Quiz generation for subject '{subject}' is not supported in the MVP.")
 
         # 2. Extract grounding context contents
         context_str = "\n".join([

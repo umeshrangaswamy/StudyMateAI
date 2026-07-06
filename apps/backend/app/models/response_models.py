@@ -26,6 +26,7 @@ class TeacherReviewModel(BaseModel):
     curriculum_alignment_score: float = Field(..., description="Curriculum alignment verification score (0 to 1)")
     exam_alignment_score: float = Field(..., description="Entrance exam alignment verification score (0 to 1)")
     response_quality_score: float = Field(..., description="Response quality and readability score (0 to 1)")
+    safety_score: float = Field(1.0, description="Safety guardrail verification score (0 to 1)")
     approved: bool = Field(..., description="Review approval status")
     feedback: str = Field(..., description="Teacher quality review explanation")
 

@@ -106,9 +106,9 @@ Needs: semester preparation and university syllabus support.
 - Numerical problem: stepwise solution
 - Summary: 5–10 bullets
 - Quick notes: 10–15 bullets
-- Quiz: 5 questions by default in free tier
+- Quiz: 5 questions by default in MVP
 
-## 7. Free Tier Product Scope
+## 7. MVP Product Scope
 User base: 0–10 active students.
 
 Supported:
@@ -144,7 +144,7 @@ Additional capabilities:
 - Internet research agent
 - Additional subjects and exams
 
-## 9. Free Tier UI Specification
+## 9. MVP UI Specification
 Fields:
 1. Year of Study dropdown
 2. University / Board dropdown
@@ -162,7 +162,7 @@ Example prompts:
 - Generate KCET quiz on Atomic Structure
 - What is Chemical Bonding?
 
-## 10. Free Tier UI Layout
+## 10. MVP UI Layout
 ```text
 +------------------------------------------------+
 |                  StudyMateAI               |
@@ -185,7 +185,7 @@ Example prompts:
 +------------------------------------------------+
 ```
 
-## 11. User Journey – Free Tier
+## 11. User Journey – MVP
 ```text
 Student
   -> Select Year
@@ -210,7 +210,7 @@ Student
   -> Analytics update
 ```
 
-## 13. Product Workflow – Free Tier
+## 13. Product Workflow – MVP
 ```text
 Frontend UI
   -> Cloud Run Backend
@@ -234,8 +234,8 @@ Frontend / Mobile App
 
 ## 15. Locked Product Decisions
 - Design includes Physics, Chemistry, Mathematics, Biology, English.
-- Free tier implements Physics and Chemistry only.
+- MVP implements Physics and Chemistry only.
 - Design includes KCET, NEET, JEE.
-- Free tier implements KCET and NEET only.
-- UI remains minimal in free tier.
+- MVP implements KCET and NEET only.
+- UI remains minimal in MVP.
 - Prompt field captures lesson, chapter, exam, entrance exam, and question intent.

@@ -1,18 +1,18 @@
-# StudyMateAI Cost Controls & Free Tier Boundaries
+# StudyMateAI Cost Controls & MVP Boundaries
 
-This document details the cost optimization controls, resource caps, and agent routing logic implemented for the **Free Tier / Starter version** of StudyMateAI.
+This document details the cost optimization controls, resource caps, and agent routing logic implemented for the **MVP / Starter version** of StudyMateAI.
 
 ---
 
 ## 1. Cloud Infrastructure Caps
-To prevent unintended resource scaling charges under the Free Tier:
+To prevent unintended resource scaling charges under the MVP:
 * **Cloud Run Instances Limits**:
   * `min-instances = 0`: Ensures the service scales to zero when idle, avoiding continuous runtime billing.
   * `max-instances = 2`: Caps total concurrent instances during traffic spikes.
 * **Cloud SQL Micro Instance**:
-  * Deployed utilizing the `db-f1-micro` tier bounds, which fit within low-cost/free tier limits.
+  * Deployed utilizing the `db-f1-micro` tier bounds, which fit within low-cost/MVP limits.
 * **Apigee, GKE, Cloud Armor & Redis**:
-  * **Not deployed/used**: Bypassed for the MVP Free Tier to avoid high base hourly charges.
+  * **Not deployed/used**: Bypassed for the MVP MVP to avoid high base hourly charges.
 
 ---
 

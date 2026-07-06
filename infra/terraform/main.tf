@@ -15,14 +15,14 @@ variable "region" {
   default     = "us-central1"
 }
 
-# --- Cloud SQL PostgreSQL (Free Tier minimal size) ---
+# --- Cloud SQL PostgreSQL (MVP minimal size) ---
 resource "google_sql_database_instance" "postgres" {
   name             = "studymateai-db-instance"
   database_version = "POSTGRES_15"
   region           = var.region
 
   settings {
-    tier = "db-f1-micro" # Smallest available instance for free tier / dev cost optimization
+    tier = "db-f1-micro" # Smallest available instance for MVP / dev cost optimization
     ip_configuration {
       ipv4_enabled = true
     }
@@ -52,7 +52,7 @@ resource "google_cloud_run_v2_service" "backend" {
   template {
     scaling {
       min_instance_count = 0  # Crucial cost-control: scale to 0 when idle
-      max_instance_count = 2  # Free Tier throttle constraint
+      max_instance_count = 2  # MVP throttle constraint
     }
 
     containers {

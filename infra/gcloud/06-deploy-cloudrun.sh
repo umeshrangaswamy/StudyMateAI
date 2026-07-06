@@ -30,7 +30,7 @@ echo "Building and registering Docker container image using Cloud Build..."
 gcloud builds submit --tag "$IMAGE_TAG" --project="$PROJECT_ID" "$BACKEND_SRC"
 
 echo "Deploying container image to Cloud Run service '$SERVICE_NAME' in region '$REGION'..."
-echo "Setting min instances=0 and max instances=2 for Free Tier cost limitations..."
+echo "Setting min instances=0 and max instances=2 for MVP cost limitations..."
 
 gcloud run deploy "$SERVICE_NAME" \
     --image="$IMAGE_TAG" \
@@ -38,7 +38,7 @@ gcloud run deploy "$SERVICE_NAME" \
     --project="$PROJECT_ID" \
     --service-account="$SA_EMAIL" \
     --add-cloudsql-instances="$PROJECT_ID:$REGION:$DB_INSTANCE" \
-    --set-env-vars="APP_ENV=production,GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=$REGION,MODEL_NAME=gemini-1.5-flash,EMBEDDING_MODEL=text-embedding-004,GOOGLE_GENAI_USE_VERTEXAI=true,GCS_KNOWLEDGE_BUCKET=$BUCKET_NAME" \
+    --set-env-vars="APP_ENV=production,GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1,MODEL_NAME=gemini-2.5-flash-lite,EMBEDDING_MODEL=text-embedding-004,GOOGLE_GENAI_USE_VERTEXAI=true,GCS_KNOWLEDGE_BUCKET=$BUCKET_NAME" \
     --set-secrets="DATABASE_URL=DATABASE_URL:latest" \
     --min-instances=0 \
     --max-instances=2 \

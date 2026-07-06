@@ -5,7 +5,7 @@
 This document maps StudyMateAIproduct and agent architecture to Google Cloud infrastructure.
 
 Goal:
-- Free Tier: production-grade structure with minimal cost for 0–10 users
+- MVP: production-grade structure with minimal cost for 0–10 users
 - Enterprise: scalable architecture without redesign
 
 ## 2. Infrastructure Principles
@@ -17,7 +17,7 @@ Goal:
 6. Minimal free-tier components
 7. Enterprise controls added later
 
-## 3. Free Tier Architecture
+## 3. MVP Architecture
 ```text
 Next.js Static Frontend
   -> Firebase Hosting
@@ -58,7 +58,7 @@ Users
 ```
 
 ## 5. Frontend Architecture
-### Free Tier
+### MVP
 - Next.js
 - TypeScript
 - Tailwind CSS
@@ -75,7 +75,7 @@ Users
 - Progress analytics
 
 ## 6. Backend Architecture
-### Free Tier
+### MVP
 Single Cloud Run service:
 ```text
 study-buddy-api
@@ -105,7 +105,7 @@ Split services when required:
 - personalization-service
 
 ## 7. AI Platform
-### Free Tier
+### MVP
 - Gemini Flash for generation
 - text-embedding-004 for embeddings
 - Rule-based routing where possible to reduce model calls
@@ -117,7 +117,7 @@ Split services when required:
 - Gemma or other SLMs for routing and low-cost tasks where practical
 
 ## 8. Data Services
-### Free Tier
+### MVP
 - Cloud Storage for documents
 - Cloud SQL PostgreSQL + pgvector for chunks and embeddings
 - Firestore for lightweight user/session metadata
@@ -130,7 +130,7 @@ Split services when required:
 - Data lifecycle policies
 
 ## 9. RAG Infrastructure
-### Free Tier
+### MVP
 ```text
 Cloud Storage documents
   -> Ingestion pipeline
@@ -148,7 +148,7 @@ Cloud Storage documents
 - Vertex AI Vector Search only if pgvector scale becomes insufficient
 
 ## 10. Networking
-### Free Tier
+### MVP
 ```text
 Internet -> Firebase Hosting -> Cloud Run -> Cloud SQL / Vertex AI / Cloud Storage
 ```
@@ -159,7 +159,7 @@ Internet -> Cloud Armor -> Apigee -> Load Balancer -> Private VPC -> Services
 ```
 
 ## 11. Authentication
-### Free Tier
+### MVP
 - Optional no-login for private testing
 - Firebase Auth when needed
 
@@ -170,7 +170,7 @@ Internet -> Cloud Armor -> Apigee -> Load Balancer -> Private VPC -> Services
 - RBAC
 
 ## 12. Security
-### Free Tier
+### MVP
 - IAM least privilege
 - Cloud Run service account
 - Secret Manager
@@ -188,7 +188,7 @@ Internet -> Cloud Armor -> Apigee -> Load Balancer -> Private VPC -> Services
 - VPC Service Controls where needed
 
 ## 13. Observability
-### Free Tier
+### MVP
 - Cloud Logging
 - Cloud Monitoring
 - Structured logs
@@ -206,7 +206,7 @@ Internet -> Cloud Armor -> Apigee -> Load Balancer -> Private VPC -> Services
 - Cost analytics
 
 ## 14. CI/CD
-### Free Tier
+### MVP
 - GitHub Actions
 - Backend test and deploy to Cloud Run
 - Frontend build and Firebase deploy
@@ -219,7 +219,7 @@ Internet -> Cloud Armor -> Apigee -> Load Balancer -> Private VPC -> Services
 - IaC with Terraform
 
 ## 15. Environment Strategy
-### Free Tier
+### MVP
 - Local
 - Dev GCP project
 
@@ -235,10 +235,10 @@ Internet -> Cloud Armor -> Apigee -> Load Balancer -> Private VPC -> Services
 - Cloud Run max instances = 2
 - RAG top_k = 3
 - Gemini output token limits
-- No Redis in free tier
-- No GKE in free tier
-- No Apigee in free tier
-- No Cloud Armor in free tier
+- No Redis in MVP
+- No GKE in MVP
+- No Apigee in MVP
+- No Cloud Armor in MVP
 - Smallest practical Cloud SQL instance
 
 ## 17. Locked Infrastructure Decisions
@@ -248,4 +248,4 @@ Internet -> Cloud Armor -> Apigee -> Load Balancer -> Private VPC -> Services
 - Cloud Storage for curriculum documents
 - Vertex AI for Gemini and embeddings
 - Firestore for metadata
-- No ChromaDB / Pinecone in free tier
+- No ChromaDB / Pinecone in MVP

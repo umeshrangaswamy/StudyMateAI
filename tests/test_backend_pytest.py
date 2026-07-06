@@ -180,7 +180,7 @@ def test_evaluation_query_routes_to_evaluator(mock_vertex, mock_embedding, mock_
     }
     req = AskRequest(**payload)
     
-    with patch("app.agents.evaluator.EvaluatorAgent.evaluate_answers", new_callable=AsyncMock) as mock_eval:
+    with patch("app.agents.evaluator.TeacherReviewAgent.evaluate_answers", new_callable=AsyncMock) as mock_eval:
         from app.models.response_models import EvaluationModel
         mock_eval.return_value = EvaluationModel(
             score=8,
@@ -228,12 +228,12 @@ def test_unsupported_subject_is_rejected():
     payload = {
         "year": "2nd PUC",
         "board": "Karnataka State Board",
-        "subject": "biology",  # designed but not supported in free tier
+        "subject": "biology",  # designed but not supported in MVP
         "query": "Explain cell theory basics"
     }
     with pytest.raises(ValidationError) as exc_info:
         AskRequest(**payload)
-    assert "Subject 'biology' is not supported in the Free Tier" in str(exc_info.value)
+    assert "Subject 'biology' is not supported in the MVP" in str(exc_info.value)
 
 def test_empty_query_is_rejected():
     """

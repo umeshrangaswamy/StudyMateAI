@@ -10,7 +10,7 @@ Goals:
 - Reduce hallucination
 - Ground answers in curriculum data
 - Support KCET and NEET preparation
-- Use the same vector database architecture from free tier to production
+- Use the same vector database architecture from MVP to production
 
 ## 2. Core Principles
 1. Curriculum-first grounding
@@ -20,7 +20,7 @@ Goals:
 5. No vector database migration later
 6. Separate knowledge data from user/session data
 
-## 3. Free Tier Data Stack
+## 3. MVP Data Stack
 ```text
 Cloud Storage
   -> Ingestion Pipeline
@@ -46,7 +46,7 @@ Cloud Storage
 ```
 
 ## 5. Knowledge Sources
-### Free Tier
+### MVP
 Physics:
 - Textbooks
 - Notes
@@ -70,7 +70,7 @@ Additional:
 - Teacher notes
 
 ## 6. Document Storage
-### Free Tier Bucket Structure
+### MVP Bucket Structure
 ```text
 knowledge/
   physics/
@@ -191,7 +191,7 @@ Indexes:
 - vector similarity index when enough data is available
 
 ## 11. Chunking Strategy
-Free Tier:
+MVP:
 - 250–350 tokens
 - target: 300 tokens
 - overlap: 10%
@@ -283,7 +283,7 @@ Store:
 - revision notes
 
 ## 17. Evaluator Data
-Free Tier:
+MVP:
 - Store recent assessment results only
 
 Enterprise:
@@ -292,7 +292,7 @@ Enterprise:
 - Build adaptive learning profile
 
 ## 18. Data Lifecycle
-### Free Tier
+### MVP
 - Knowledge content: permanent
 - Query logs: 30 days
 - Assessment results: 90 days
@@ -307,5 +307,5 @@ Enterprise:
 - Use Cloud Storage for documents.
 - Use Cloud SQL PostgreSQL + pgvector for RAG.
 - Use Firestore only for lightweight metadata/session data.
-- Do not use ChromaDB, Pinecone, or Vertex AI Vector Search in free tier.
+- Do not use ChromaDB, Pinecone, or Vertex AI Vector Search in MVP.
 - Always use metadata filtering before vector similarity search.

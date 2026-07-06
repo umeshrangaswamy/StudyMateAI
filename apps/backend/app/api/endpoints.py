@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional, Dict, Any
 
 from app.agents.orchestrator import OrchestratorAgent
-from app.agents.evaluator import EvaluatorAgent
+from app.agents.evaluator import TeacherReviewAgent
 from app.models.request_models import AskRequest
 from app.models.response_models import AskResponse
 
@@ -14,7 +14,7 @@ async def ask_endpoint(request: AskRequest):
     Main academic doubt-solving, tutoring, quiz generation, and evaluation endpoint.
     Routes queries to the appropriate SME Agent or helper agent using curriculum-filtered context.
     """
-    # Note: Free Tier subject check is now handled automatically by the Pydantic validator on AskRequest.
+    # Note: MVP subject check is now handled automatically by the Pydantic validator on AskRequest.
     orchestrator = OrchestratorAgent()
     try:
         response = await orchestrator.process_request(request)
@@ -93,7 +93,7 @@ async def compatibility_quiz(request: AskRequest):
 @router.post("/api/v1/evaluate", tags=["Compatibility"])
 async def compatibility_evaluate(request: Dict[str, Any]):
     # Adapt raw compatibility dictionary payload to Evaluator inputs
-    evaluator = EvaluatorAgent()
+    evaluator = TeacherReviewAgent()
     try:
         response = await evaluator.evaluate_answers(
             questions=request.get("questions", []),

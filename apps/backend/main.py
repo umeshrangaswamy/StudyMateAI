@@ -12,7 +12,7 @@ setup_logging(log_level=settings.LOG_LEVEL)
 
 app = FastAPI(
     title="StudyMateAI Backend API",
-    description="FastAPI backend shell for StudyMateAI serving SME agents and RAG (Free Tier)",
+    description="FastAPI backend shell for StudyMateAI serving SME agents and RAG (MVP)",
     version="1.0.0",
 )
 

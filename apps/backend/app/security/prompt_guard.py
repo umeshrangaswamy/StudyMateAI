@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 class PromptGuard:
     """
     Rule-based Prompt Guard to detect and block obvious prompt injection attempts.
-    Returns structured allowed/reason results. Does not use LLMs for Free Tier constraints.
+    Returns structured allowed/reason results. Does not use LLMs for MVP constraints.
     """
     def __init__(self):
         # Precise injection patterns requested to block

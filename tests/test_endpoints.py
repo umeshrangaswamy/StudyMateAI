@@ -20,13 +20,13 @@ def test_ready_endpoint():
     assert "ready" in response.json()["status"]
 
 def test_chat_invalid_subject():
-    # Free tier only allows physics and chemistry
+    # MVP only allows physics and chemistry
     response = client.post(
         "/api/v1/chat",
         json={
             "year": "2nd PUC",
             "board": "Karnataka State Board",
-            "subject": "biology",  # biology is designed but not implemented in MVP free tier
+            "subject": "biology",  # biology is designed but not implemented in MVP MVP
             "query": "Explain cell theory"
         }
     )

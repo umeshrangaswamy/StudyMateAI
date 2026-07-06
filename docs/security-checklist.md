@@ -1,6 +1,6 @@
 # StudyMateAI Security Checklist & Guidelines
 
-This document details the security constraints, access control policies, and threat mitigation models implemented for the StudyMateAI Free Tier / Starter platform.
+This document details the security constraints, access control policies, and threat mitigation models implemented for the StudyMateAI MVP / Starter platform.
 
 ---
 
@@ -63,9 +63,9 @@ This document details the security constraints, access control policies, and thr
 * PromptGuard and orchestrator components block queries attempting to extract instructions, preventing leakage.
 
 ### 2.6 No Unsupported Subject Routing
-* Free Tier boundaries enforce a strict whitelist (Physics and Chemistry only).
+* MVP boundaries enforce a strict whitelist (Physics and Chemistry only).
 * Pydantic validators reject requests targeting unsupported subjects (e.g. Mathematics, Biology) before any execution.
 
 ### 2.7 No Unrestricted Internet Access
-* No internet search tools (such as the Internet Research Agent) are deployed or active in the Free Tier.
+* No internet search tools (such as the Internet Research Agent) are deployed or active in the MVP.
 * All grounding details are retrieved from localized, verified curriculum sources stored inside pgvector databases.

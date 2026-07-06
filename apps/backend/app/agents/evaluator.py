@@ -7,15 +7,16 @@ from prompts import EVALUATOR_SYSTEM_PROMPT, EVALUATOR_REVIEW_SYSTEM_PROMPT
 
 logger = logging.getLogger(__name__)
 
-class EvaluatorAgent:
+class TeacherReviewAgent:
     """
-    Evaluator Agent responsible for analyzing quiz answers or subjective answers,
-    scoring them, identifying missing concepts, and suggesting revision guidelines.
+    Teacher Review Agent responsible for analyzing quiz answers or subjective answers,
+    scoring them, identifying missing concepts, suggesting revision guidelines,
+    and reviewing LLM response quality before student feedback.
     """
     def __init__(self):
         self.firestore_service = FirestoreService()
         self.vertex_service = VertexAIService()
-        logger.info("EvaluatorAgent initialized.")
+        logger.info("TeacherReviewAgent initialized.")
 
     async def evaluate_answers(
         self, 
@@ -59,7 +60,7 @@ class EvaluatorAgent:
                     break
 
         if is_subjective:
-            logger.info("EvaluatorAgent: Subjective reasoning needed. Invoking Gemini Flash...")
+            logger.info("TeacherReviewAgent: Subjective reasoning needed. Invoking Gemini Flash...")
             
             # Formulate detailed prompt for subjective reasoning
             prompt = (
@@ -99,7 +100,7 @@ class EvaluatorAgent:
 
         else:
             # MCQ Quiz Evaluation using exact matching
-            logger.info("EvaluatorAgent: MCQ answer keys available. Using exact matching...")
+            logger.info("TeacherReviewAgent: MCQ answer keys available. Using exact matching...")
             score = 0
             max_score = len(questions)
             missing_points = []
@@ -182,6 +183,7 @@ class EvaluatorAgent:
                     "curriculum_alignment_score": {"type": "NUMBER", "description": "Curriculum alignment verification score (0.0 to 1.0)"},
                     "exam_alignment_score": {"type": "NUMBER", "description": "Entrance exam alignment verification score (0.0 to 1.0)"},
                     "response_quality_score": {"type": "NUMBER", "description": "Response quality and readability score (0.0 to 1.0)"},
+                    "safety_score": {"type": "NUMBER", "description": "Safety guardrail and prompt injection verification score (0.0 to 1.0)"},
                     "approved": {"type": "BOOLEAN", "description": "Review approval status"},
                     "feedback": {"type": "STRING", "description": "Teacher quality review explanation"}
                 },
@@ -190,6 +192,7 @@ class EvaluatorAgent:
                     "curriculum_alignment_score",
                     "exam_alignment_score",
                     "response_quality_score",
+                    "safety_score",
                     "approved",
                     "feedback"
                 ]
@@ -212,6 +215,7 @@ class EvaluatorAgent:
                 curriculum_alignment_score=float(data.get("curriculum_alignment_score", 0.98)),
                 exam_alignment_score=float(data.get("exam_alignment_score", 0.92)),
                 response_quality_score=float(data.get("response_quality_score", 0.94)),
+                safety_score=float(data.get("safety_score", 1.0)),
                 approved=bool(data.get("approved", True)),
                 feedback=str(data.get("feedback", "Response reviewed and approved by teacher agent."))
             )
@@ -223,6 +227,7 @@ class EvaluatorAgent:
                 curriculum_alignment_score=0.98,
                 exam_alignment_score=0.92 if exam else 1.0,
                 response_quality_score=0.94,
+                safety_score=1.0,
                 approved=True,
                 feedback=f"Response is aligned with {exam.upper() if exam else 'Board'} requirements and curriculum scope."
             )

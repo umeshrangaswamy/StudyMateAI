@@ -5,7 +5,7 @@
 This document defines the multi-agent architecture for StudyMateAI.
 
 The architecture supports:
-- Free Tier: 0–10 users, single runtime, low cost
+- MVP: 0–10 users, single runtime, low cost
 - Enterprise: distributed multi-agent ecosystem, high scale, stronger governance
 
 ## 2. Core Agent Design Principle
@@ -35,8 +35,8 @@ Full design includes:
 10. Evaluator Agent
 11. Personalization Agent
 
-## 4. Agent Set – Free Tier Implementation
-Implemented in Free Tier:
+## 4. Agent Set – MVP Implementation
+Implemented in MVP:
 1. Orchestrator Agent
 2. Physics SME Agent
 3. Chemistry SME Agent
@@ -56,7 +56,7 @@ Deferred:
 - Internet Research Agent
 - Personalization Agent
 
-## 5. Free Tier Logical Architecture
+## 5. MVP Logical Architecture
 ```text
 Student
     |
@@ -75,7 +75,7 @@ Student
 
 ### Conditional Evaluator Execution
 
-Under the Free Tier, the Evaluator Agent runs conditionally based on the intent, exam, and confidence of the query:
+Under the MVP, the Evaluator Agent runs conditionally based on the intent, exam, and confidence of the query:
 - **Mandatory Scenarios**: Quiz generation, Student answer evaluation.
 - **Conditional Scenarios**: KCET queries, NEET queries, Lesson summaries, Quick notes, and Low confidence SME responses.
 
@@ -105,7 +105,7 @@ Student
 - Run prompt guard
 - Detect subject
 - Detect intent
-- Detect exam name from prompt: KCET or NEET in free tier
+- Detect exam name from prompt: KCET or NEET in MVP
 - Route to correct workflow
 - Route to Evaluator Agent for quality validation and teacher-review based on routing rules
 - Assemble response
@@ -219,7 +219,7 @@ Never search the full knowledge base without metadata filtering.
 - Generate NEET-style questions
 - Provide answers and short explanations
 
-### Free Tier Default
+### MVP Default
 - 5 questions
 - MCQ format
 - 4 options
@@ -320,7 +320,7 @@ Responsibilities:
 - Build learning profile
 - Generate exam readiness reports
 
-## 15. Free Tier Agent Deployment
+## 15. MVP Agent Deployment
 All agents run in one Cloud Run backend service.
 
 ```text
@@ -369,7 +369,7 @@ Orchestrator -> Evaluator -> Response
 ```
 
 ## 18. Locked Agent Decisions
-- No separate Exam Agent in free tier.
+- No separate Exam Agent in MVP.
 - Physics SME and Chemistry SME handle exam and entrance preparation.
 - Quiz Generator only generates assessments.
 - Evaluator Agent acts as a Teacher Review & Academic Quality layer, performing quality validation and safety checks, as well as student assessments.
