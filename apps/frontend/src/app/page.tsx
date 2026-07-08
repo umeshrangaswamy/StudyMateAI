@@ -58,6 +58,7 @@ export default function StudyMateDashboard() {
   const [board, setBoard] = useState('Karnataka State Board');
   const [subject, setSubject] = useState('physics');
   const [prompt, setPrompt] = useState('');
+  const [responseStyle, setResponseStyle] = useState('concise');
   
   // App mode & UI states
   const [activeTab, setActiveTab] = useState<'chat' | 'quiz' | 'evaluate'>('chat');
@@ -199,6 +200,7 @@ export default function StudyMateDashboard() {
           board: board,
           subject: subject,
           query: prompt,
+          response_style: responseStyle,
         }),
       });
 
@@ -247,6 +249,7 @@ export default function StudyMateDashboard() {
           board: board,
           subject: subject,
           query: prompt,
+          response_style: responseStyle,
         }),
       });
 
@@ -368,6 +371,19 @@ export default function StudyMateDashboard() {
               >
                 <option value="physics">Physics</option>
                 <option value="chemistry">Chemistry</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="style-select" className="block text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Response Style</label>
+              <select
+                id="style-select"
+                value={responseStyle}
+                onChange={(e) => setResponseStyle(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500 cursor-pointer transition duration-200"
+              >
+                <option value="concise">Concise</option>
+                <option value="detailed">Detailed</option>
               </select>
             </div>
             

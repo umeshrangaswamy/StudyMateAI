@@ -21,7 +21,7 @@ class OrchestratorAgent:
         self.firestore_service = FirestoreService()
         logger.info("OrchestratorAgent successfully instantiated.")
 
-    async def process_request(self, request: AskRequest) -> OrchestratorResult:
+    async def process_request(self, request: AskRequest, force_intent: Optional[str] = None) -> OrchestratorResult:
         """
         Main entry point for unified query routing and multi-agent coordination.
         Runs the ADK Root Agent via Runner.
@@ -57,8 +57,10 @@ class OrchestratorAgent:
                 "subject": request.subject,
                 "board": request.board,
                 "year": request.year,
+                "response_style": request.response_style or "concise",
                 "eval_questions": request.quiz_questions,
-                "eval_answers": request.student_answers
+                "eval_answers": request.student_answers,
+                "force_intent": force_intent
             }
 
             await session_service.create_session(

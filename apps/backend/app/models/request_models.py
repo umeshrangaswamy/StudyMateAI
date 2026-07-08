@@ -30,6 +30,11 @@ class AskRequest(BaseModel):
     )
     
     # Optional parameters for self-assessment checks and backward compatibility
+    response_style: Optional[str] = Field(
+        "concise",
+        description="Response style constraint: concise or detailed",
+        example="concise"
+    )
     student_answers: Optional[Dict[str, str]] = Field(
         None,
         description="Key-value pairs of question IDs and answers for evaluation",

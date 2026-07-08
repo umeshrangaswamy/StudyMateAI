@@ -52,7 +52,11 @@ class RootAgent(BaseAgent):
             return
 
         # 2. Intent and Exam Detection
-        intent = self._detect_intent(query, subject, bool(state.get("eval_answers")))
+        force_intent = state.get("force_intent")
+        if force_intent:
+            intent = force_intent
+        else:
+            intent = self._detect_intent(query, subject, bool(state.get("eval_answers")))
         exam = self._detect_exam(query)
 
         state["detected_intent"] = intent

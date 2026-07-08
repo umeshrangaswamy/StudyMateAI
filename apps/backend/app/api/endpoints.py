@@ -80,7 +80,7 @@ async def compatibility_quiz(request: AskRequest):
     # Map AskRequest to process quiz generation
     orchestrator = OrchestratorAgent()
     try:
-        res = await orchestrator.process_request(request)
+        res = await orchestrator.process_request(request, force_intent="quiz_generation")
         # Adapt output layout to match the old frontend layout expectation
         return {
             "questions": res.quiz_questions or [],

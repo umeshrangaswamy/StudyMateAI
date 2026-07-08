@@ -15,13 +15,13 @@ class MCQQuestionSchema(BaseModel):
     explanation: str = Field(..., description="Detailed pedagogical explanation of why this option is correct")
 
 class QuizSchema(BaseModel):
-    quiz: List[MCQQuestionSchema] = Field(..., description="A list of exactly 5 multiple choice questions")
+    quiz: List[MCQQuestionSchema] = Field(..., description="A list of multiple choice questions")
 
 
 class QuizGeneratorAgent:
     """
     Quiz Generator Agent responsible for creating educational assessment questions
-    (defaulting to 5 multiple-choice questions with 4 options, answers, and explanations).
+    (allowing Concise (5) vs Detailed (20) MCQ count).
     Allows generating NEET-style, KCET-style, or general chapter quizzes grounded in RAG context.
     """
     def __init__(self):
@@ -36,7 +36,8 @@ class QuizGeneratorAgent:
         query: str,
         exam: Optional[str] = None,
         context: List[Dict[str, Any]] = [],
-        sources: List[Dict[str, Any]] = []
+        sources: List[Dict[str, Any]] = [],
+        response_style: Optional[str] = "concise"
     ) -> Dict[str, Any]:
         """
         Generates structured JSON quiz format matching the user requirements.
@@ -44,7 +45,7 @@ class QuizGeneratorAgent:
         """
         logger.info(
             f"QuizGeneratorAgent: Generating quiz on subject={subject}, board={board}, "
-            f"exam={exam or 'general'}, query='{query}'"
+            f"exam={exam or 'general'}, query='{query}', response_style={response_style}"
         )
 
         # 1. Scope and boundaries validation
@@ -66,15 +67,17 @@ class QuizGeneratorAgent:
             year_of_study=year
         )
 
+        num_questions = 20 if response_style == "detailed" else 5
+
         # 4. Build the full quiz generation prompt
         exam_style = f"{exam.upper()} style" if exam else "Board exam style"
         quiz_prompt = (
-            f"Generate exactly 5 {exam_style} multiple-choice questions (MCQs) on the following topic:\n"
+            f"Generate exactly {num_questions} {exam_style} multiple-choice questions (MCQs) on the following topic:\n"
             f"Topic: {query}\n"
             f"Subject: {subject} | Board: {board} | Year: {year}\n\n"
             f"Grounding Context from curriculum textbooks:\n{context_str}\n\n"
             f"IMPORTANT: Questions MUST be strictly about '{query}'. Do NOT generate questions about other topics.\n\n"
-            f"Return a structured JSON object containing exactly 5 questions."
+            f"Return a structured JSON object containing exactly {num_questions} questions."
         )
 
         try:

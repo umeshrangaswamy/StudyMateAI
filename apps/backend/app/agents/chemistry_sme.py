@@ -20,13 +20,14 @@ class ChemistrySMEAgent:
         prompt: str, 
         intent: str, 
         exam: Optional[str], 
-        context: List[Dict[str, Any]]
+        context: List[Dict[str, Any]],
+        response_style: Optional[str] = "concise"
     ) -> str:
         """
         Generates structured Chemistry pedagogical explanations based on RAG context.
         Adheres strictly to the requested response style constraints.
         """
-        logger.info(f"Chemistry SME generating response for intent={intent}, exam={exam}")
+        logger.info(f"Chemistry SME generating response for intent={intent}, exam={exam}, response_style={response_style}")
 
         # Check for insufficient context
         prompt_lower = prompt.lower().strip()
@@ -55,7 +56,8 @@ class ChemistrySMEAgent:
         system_instruction = CHEMISTRY_SME_SYSTEM_PROMPT.format(
             intent=intent,
             exam=exam or 'Board Exams',
-            context_str=context_str
+            context_str=context_str,
+            response_style=response_style or 'concise'
         )
 
         # Call model service to generate response

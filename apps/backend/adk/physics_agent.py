@@ -59,43 +59,44 @@ class PhysicsAgent(BaseAgent):
         intent = state.get("detected_intent") or "doubt_solving"
         exam = state.get("detected_exam")
         context = state.get("rag_chunks", [])
+        response_style = state.get("response_style", "concise")
 
         # Normalise exam value
         if exam == "none":
             exam = None
 
         logger.info(
-            f"PhysicsAgent dispatching skill for intent={intent}, exam={exam}"
+            f"PhysicsAgent dispatching skill for intent={intent}, exam={exam}, response_style={response_style}"
         )
 
         # Detect formula-sheet requests by query keywords
         query_lower = query.lower()
         if any(w in query_lower for w in ["formula", "formulae", "formula sheet"]):
             res = await generate_formula_sheet(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         elif intent == "entrance_preparation":
             if exam == "neet":
-                res = await prepare_neet(query=query, context=context)
+                res = await prepare_neet(query=query, context=context, response_style=response_style)
             else:
-                res = await prepare_kcet(query=query, context=context)
+                res = await prepare_kcet(query=query, context=context, response_style=response_style)
 
         elif intent == "lesson_summary":
             res = await generate_summary(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         elif intent == "quick_notes":
             res = await generate_quick_notes(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         else:
             # Default: explain_concept covers lesson_explanation,
             # doubt_solving, exam_preparation
             res = await explain_concept(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         state["physics_response"] = res

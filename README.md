@@ -1,8 +1,12 @@
 # StudyMateAI – MVP
+This project has been developed using Vibe Coding with a spec‑driven architecture, leveraging the Antigravity IDE, and accomplished entirely with zero manual coding.  
+The Antigravity platform was used for the complete end‑to‑end development process — extending the specification document, implementing development, managing cloud deployment, and conducting testing. This entire journey was achieved seamlessly through **Antigravity prompts**, without any manual coding.
 
 StudyMateAI is an AI-powered academic mentor platform designed to assist students with curriculum-aligned learning support. It serves as an interactive teacher by explaining concepts, solving doubts, generating summaries/notes, generating quizzes, and evaluating answers within a controlled academic scope.
 
 This repository implements the **MVP / Starter** architecture using a modular multi-agent system powered by the **Google Agent Development Kit (ADK)** and serverless Google Cloud Platform (GCP) resources.
+
+# Application Link : https://project-2e926853-25a4-402b-a73.web.app/
 
 ## 📋 Table of Contents
 - [Project Architecture](#project-architecture)

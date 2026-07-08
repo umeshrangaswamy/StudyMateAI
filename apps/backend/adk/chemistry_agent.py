@@ -49,13 +49,14 @@ class ChemistryAgent(BaseAgent):
         intent = state.get("detected_intent") or "doubt_solving"
         exam = state.get("detected_exam")
         context = state.get("rag_chunks", [])
+        response_style = state.get("response_style", "concise")
 
         # Normalise exam value
         if exam == "none":
             exam = None
 
         logger.info(
-            f"ChemistryAgent dispatching skill for intent={intent}, exam={exam}"
+            f"ChemistryAgent dispatching skill for intent={intent}, exam={exam}, response_style={response_style}"
         )
 
         # Detect equation-sheet requests by query keywords
@@ -65,30 +66,30 @@ class ChemistryAgent(BaseAgent):
             for w in ["equation sheet", "reaction sheet", "all equations", "all reactions"]
         ):
             res = await generate_equation_sheet(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         elif intent == "entrance_preparation":
             if exam == "neet":
-                res = await prepare_neet(query=query, context=context)
+                res = await prepare_neet(query=query, context=context, response_style=response_style)
             else:
-                res = await prepare_kcet(query=query, context=context)
+                res = await prepare_kcet(query=query, context=context, response_style=response_style)
 
         elif intent == "lesson_summary":
             res = await generate_summary(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         elif intent == "quick_notes":
             res = await generate_quick_notes(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         else:
             # Default: explain_concept covers lesson_explanation,
             # doubt_solving, exam_preparation
             res = await explain_concept(
-                query=query, context=context, exam=exam
+                query=query, context=context, exam=exam, response_style=response_style
             )
 
         state["chemistry_response"] = res

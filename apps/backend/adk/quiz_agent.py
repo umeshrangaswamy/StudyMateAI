@@ -19,6 +19,8 @@ class QuizAgent(BaseAgent):
         exam = state.get("detected_exam")
         chunks = state.get("rag_chunks", [])
 
+        response_style = state.get("response_style", "concise")
+
         if exam == "none":
             exam = None
 
@@ -34,7 +36,8 @@ class QuizAgent(BaseAgent):
             subject=subject,
             query=query,
             exam=exam,
-            chunks=chunks
+            chunks=chunks,
+            response_style=response_style
         )
 
         state["quiz_data"] = quiz_data

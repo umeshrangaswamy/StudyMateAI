@@ -21,9 +21,10 @@ async def generate_quiz(
     query: str,
     exam: Optional[str] = None,
     chunks: Optional[List[str]] = None,
+    response_style: Optional[str] = "concise",
 ) -> Dict[str, Any]:
     """
-    Generate exactly 5 multiple-choice questions complete with 4 options, the correct answer, and an explanation.
+    Generate multiple-choice questions complete with 4 options, the correct answer, and an explanation.
 
     Args:
         year:    Year of study.
@@ -32,8 +33,9 @@ async def generate_quiz(
         query:   Topic or chapter name.
         exam:    Optional entrance exam focus ('kcet' or 'neet').
         chunks:  Optional list of grounding context chunks.
+        response_style: Optional response style constraint ('concise' or 'detailed').
     """
-    logger.info(f"MCP tool generate_quiz called: subject={subject}, exam={exam}")
+    logger.info(f"MCP tool generate_quiz called: subject={subject}, exam={exam}, response_style={response_style}")
     from adk.quiz_tool import generate_mcq_quiz
     return await generate_mcq_quiz(
         year=year,
@@ -42,6 +44,7 @@ async def generate_quiz(
         query=query,
         exam=exam,
         chunks=chunks,
+        response_style=response_style,
     )
 
 
