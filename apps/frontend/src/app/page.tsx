@@ -116,10 +116,21 @@ export default function StudyMateDashboard() {
           );
         }
 
-        // 3. Math formula line detection
+        // 3. Simple list item check (* or -)
+        if (trimmed.startsWith('*') || trimmed.startsWith('-')) {
+          const cleanedLine = trimmed.replace(/^[\*\-]\s*/, '');
+          return (
+            <li key={lIdx} className="ml-6 text-sm text-slate-300 list-disc leading-relaxed my-2 pl-1">
+              {parseInlineElements(cleanedLine)}
+            </li>
+          );
+        }
+
+        // 4. Math formula line detection
         const isMathFormulaLine = (t: string) => {
           const s = t.trim();
           if (!s) return false;
+          if (s.includes('$')) return false;
           if (s.startsWith('\\') || s.includes('\\frac') || s.includes('\\text') || s.includes('\\Delta') || s.includes('^') || s.includes('_')) {
             const spaces = s.split(' ').length;
             if (spaces <= 5 || s.includes('\\text{') || s.includes('=')) {
@@ -134,16 +145,6 @@ export default function StudyMateDashboard() {
             <div key={lIdx} className="my-6 p-4 bg-slate-950/80 border border-sky-500/10 border-l-4 border-l-sky-500 rounded-r-2xl text-center shadow-lg overflow-x-auto text-base backdrop-blur-sm">
               <MathSpan math={trimmed} block={true} />
             </div>
-          );
-        }
-
-        // 4. Simple list item check (* or -)
-        if (trimmed.startsWith('*') || trimmed.startsWith('-')) {
-          const cleanedLine = trimmed.replace(/^[\*\-]\s*/, '');
-          return (
-            <li key={lIdx} className="ml-6 text-sm text-slate-300 list-disc leading-relaxed my-2 pl-1">
-              {parseInlineElements(cleanedLine)}
-            </li>
           );
         }
         

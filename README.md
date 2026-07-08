@@ -246,7 +246,21 @@ The current implementation (MVP) provides a lightweight, serverless framework fo
   - **Concise Response Style**: Word limit of **300 words** for topic explanations; quizzes generate exactly **5 questions**.
   - **Detailed Response Style**: No word limit; quizzes generate **10 to 20 questions**.
   - **Exam & Entrance Preparation Intents**: Automatically exempt from word-limit cutoffs to ensure full Q&A and MCQ generation.
-  - **Doubt Solving Hook**: Explanations for non-exam prep intents append **exactly 3 Board Exam-style questions** and **exactly 3 Entrance Exam-style questions** (without answers) plus a list of **Related Topics** for student self-study.
+  - **Doubt Solving Hook**: Explanations for non-exam prep intents append **exactly 3 Board Exam-style practice questions** and **exactly 3 Entrance Exam-style practice questions** (without answers) plus a list of **Related Topics** for student self-study.
+  - **Tutoring Explanation Response Structure**:
+    1. **Definition**: Clear, one-line definition of the concept.
+    2. **Explanation**: In-depth coverage (concise or detailed based on selected style).
+    3. **Real-life Example**: A relatable, everyday application showing the concept in action.
+    4. **Formula / Chemical Reaction**: Formatted using LaTeX block/inline equations (e.g. $$F = \frac{kq_1q_2}{r^2}$$ or $$2H_2 + O_2 \rightarrow 2H_2O$$).
+    5. **KCET/NEET Tip**: Important values, exam traps, and high-yield focus areas.
+    6. **Practice Questions & Related Topics**: As defined in the doubt solving hook.
+  - **Chapter Summary Response Structure**:
+    - **Chapter Overview**: 2-3 sentences general summary.
+    - **Key Concepts & Definitions**: Bulleted list of core definitions.
+    - **Important Laws, Formulas & Reactions**: Core laws/equations rendered in LaTeX.
+    - **Summary of Key Subtopics**: Brief 1-2 sentence summaries of each sub-theme.
+    - **KCET/NEET Focus Points**: Key exam strategies.
+    - **Practice Questions & Related Topics**: Practice exercises and related study links.
 
 ---
 
@@ -429,5 +443,39 @@ Once running, you can connect to your local database using client tools or the F
   npx firebase login
   ```
   Ensure that your logged-in Google account has appropriate IAM Owner/Editor permissions on the target Firebase project.
+
+---
+
+## 🖼️ Application Showcase Screenshots
+
+Here are the screenshots showing the fully deployed StudyMateAI dashboard in action. 
+### Quiz 
+![Learning Context & Doubt Solver](docs/screenshots/quiz.png)
+
+### Self Assessment Result
+![Learning Context & Doubt Solver](docs/screenshots/self-assessment.png)
+
+### NEET Exam Style Quiz
+![Learning Context & Doubt Solver](docs/screenshots/quiz-neet.png)
+
+### Self Assessment Result
+![Learning Context & Doubt Solver](docs/screenshots/self-assessment-neet.png)
+
+### KCET Exam Style Quiz
+![Learning Context & Doubt Solver](docs/screenshots/quiz-kcet.png)
+
+### Self Assessment Result
+![Learning Context & Doubt Solver](docs/screenshots/self-assessment-kcet.png)
+
+
+
+
+### 1. Student Ask
+(Due to the length of the dashboard, the interface is captured in three consecutive screenshots):
+
+![Learning Context & Doubt Solver](docs/screenshots/01-doubt-solving-response.png)
+![Practice Questions & Entrance Exam Style](docs/screenshots/02-quiz-generation-view.png)
+![Related Topics & Reference Sources](docs/screenshots/03-evaluation-grades-feedback.png)
+
 
 
