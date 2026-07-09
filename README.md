@@ -7,6 +7,7 @@ StudyMateAI is an AI-powered academic mentor platform designed to assist student
 This repository implements the **MVP / Starter** architecture using a modular multi-agent system powered by the **Google Agent Development Kit (ADK)** and serverless Google Cloud Platform (GCP) resources.
 
 # Application Link : https://project-2e926853-25a4-402b-a73.web.app/
+# Youtube Link : https://youtu.be/kv35SzkWHJo
 
 ## 📋 Table of Contents
 - [Project Architecture](#project-architecture)
